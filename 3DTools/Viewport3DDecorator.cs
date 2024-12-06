@@ -141,7 +141,7 @@ public abstract class Viewport3DDecorator : FrameworkElement, IAddChild
         {
             return this.PostViewportChildren[index];
         }
-        throw new ArgumentOutOfRangeException("index", num, "Out of range visual requested");
+        throw new ArgumentOutOfRangeException(nameof(index), num, "Out of range visual requested");
     }
 
         protected override IEnumerator LogicalChildren
@@ -182,9 +182,8 @@ public abstract class Viewport3DDecorator : FrameworkElement, IAddChild
 
     private void MeasureUIElementCollection(UIElementCollection collection, Size constraint)
     {
-        foreach (object obj in collection)
+        foreach (UIElement uielement in collection)
         {
-            UIElement uielement = (UIElement)obj;
             uielement.Measure(constraint);
         }
     }
@@ -212,19 +211,15 @@ public abstract class Viewport3DDecorator : FrameworkElement, IAddChild
 
     private void ArrangeUIElementCollection(UIElementCollection collection, Size constraint)
     {
-        foreach (object obj in collection)
+        foreach (UIElement uielement in collection)
         {
-            UIElement uielement = (UIElement)obj;
             uielement.Arrange(new Rect(constraint));
         }
     }
 
     void IAddChild.AddChild(object value)
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException("value");
-        }
+        ArgumentNullException.ThrowIfNull(value);
         if (this.Content != null)
         {
             throw new ArgumentException("Viewport3DDecorator can only have one child");
@@ -243,9 +238,9 @@ public abstract class Viewport3DDecorator : FrameworkElement, IAddChild
         }
     }
 
-    private UIElementCollection _preViewportChildren;
+    private readonly UIElementCollection _preViewportChildren;
 
-    private UIElementCollection _postViewportChildren;
+    private readonly UIElementCollection _postViewportChildren;
 
     private UIElement _content;
 }
