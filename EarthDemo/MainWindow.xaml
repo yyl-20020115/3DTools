@@ -14,7 +14,7 @@
                 <Storyboard  x:Name="story" Completed="Storyboard_Completed">
                     <!--<DoubleAnimation Storyboard.TargetName="earthoffset" Storyboard.TargetProperty="OffsetZ" From="0" To="-43" Duration="0:0:5">
                     </DoubleAnimation>-->
-                    <Point3DAnimation Storyboard.TargetName="cam" Storyboard.TargetProperty="Position" From="0 0 50" To="0 0 7" Duration="0:0:5" FillBehavior="Stop">
+                    <Point3DAnimation Storyboard.TargetName="Camera" Storyboard.TargetProperty="Position" From="0 0 50" To="0 0 7" Duration="0:0:5" FillBehavior="Stop">
                     </Point3DAnimation>
                     <!--<DoubleAnimation Storyboard.TargetName="YRotate" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:5" />-->
                     <!--<DoubleAnimation BeginTime="0:0:5" Storyboard.TargetName="YRotate" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:30"  RepeatBehavior="Forever"/>-->
@@ -28,35 +28,33 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Menu x:Name="menu" Grid.Row="0"  Background="Transparent">
+        <!--<Menu x:Name="menu" Grid.Row="0"  Background="Transparent">
             <MenuItem  Header="地图操作">
                 <MenuItem Background="Transparent" Header="放大" />
                 <MenuItem Background="Transparent" Header="缩小" />
                 <MenuItem Background="Transparent" Header="放大" />
                 <MenuItem Background="Transparent" Header="查询" />
             </MenuItem>
-        </Menu>
+        </Menu>-->
         <tools:TrackballDecorator Grid.Row="1" >
             <Viewport3D x:Name="viewport">
                 <Viewport3D.Camera >
-                    <PerspectiveCamera x:Name="cam" Position="0,0,50" LookDirection="0,0,-6" UpDirection="0,1,0">
+                    <PerspectiveCamera x:Name="Camera" Position="0,0,50" LookDirection="0,0,-6" UpDirection="0,1,0">
                         <PerspectiveCamera.Transform>
-                            <TranslateTransform3D x:Name="earthoffset" OffsetZ="0">
+                            <TranslateTransform3D x:Name="EarthOffset" OffsetZ="0">
                             </TranslateTransform3D>
                         </PerspectiveCamera.Transform>
                     </PerspectiveCamera>
 
                 </Viewport3D.Camera>
 
-                <ModelUIElement3D x:Name="earthmodel" MouseLeftButtonDown="earthmodel_MouseLeftButtonDown">
+                <ModelUIElement3D x:Name="earthmodel" MouseLeftButtonDown="Earthmodel_MouseLeftButtonDown">
                     <ModelUIElement3D.Model>
-                        <GeometryModel3D   Geometry ="{Binding Source={StaticResource sphere},
-                                               Path=Geometry}">
+                        <GeometryModel3D Geometry ="{Binding Source={StaticResource sphere}, Path=Geometry}">
                             <GeometryModel3D.Material>
                                 <DiffuseMaterial>
                                     <DiffuseMaterial.Brush>
-                                        <ImageBrush ImageSource="earthmap.jpg"/>
-
+                                        <ImageBrush ImageSource="EarthMap.jpg"/>
                                     </DiffuseMaterial.Brush>
                                 </DiffuseMaterial>
                             </GeometryModel3D.Material>
@@ -83,5 +81,4 @@
             </Viewport3D>
         </tools:TrackballDecorator>
     </Grid>
-
 </Window>

@@ -10,21 +10,21 @@ namespace EarthDemo;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private bool is_stopping = false;
     public MainWindow()
     {
         InitializeComponent();
         CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
     }
-    private bool isstop = false;
     void CompositionTarget_Rendering(object sender, EventArgs e)
     {
         YRotate.Angle++;
         if (YRotate.Angle > 360)
             YRotate.Angle = 0;
-        if (isstop)
+        if (is_stopping)
         {
             CompositionTarget.Rendering -= new EventHandler(CompositionTarget_Rendering);
-            isstop = true;
+            is_stopping = true;
         }
     }
     private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -32,7 +32,7 @@ public partial class MainWindow : Window
         if (e.Key == Key.Escape)
         {
             this.WindowStyle = WindowStyle.SingleBorderWindow;
-            menu.Background = new SolidColorBrush(SystemColors.ControlColor);
+            //menu.Background = new SolidColorBrush(SystemColors.ControlColor);
             //MenuItem menuitem = (MenuItem)menu.Items[0];
             //int count  = menuitem.Items.Count;
             //for (int i = 0; i < count; i++)
@@ -45,7 +45,7 @@ public partial class MainWindow : Window
         else if (e.Key == Key.F1)
         {
             this.WindowStyle = WindowStyle.None;
-            menu.Background = Brushes.Transparent;
+            //menu.Background = Brushes.Transparent;
             //MenuItem menuitem = (MenuItem)menu.Items[0];
             //int count = menuitem.Items.Count;
 
@@ -57,13 +57,15 @@ public partial class MainWindow : Window
         }
         else if (e.Key == Key.S)
         {
-            if (isstop)
+            if (is_stopping)
             {
                 CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-                isstop = false;
+                is_stopping = false;
             }
-            else isstop = true;
-
+            else
+            {
+                is_stopping = true;
+            }
             //if (isstop)
             //    rotatestory.Resume(this);
             //else
@@ -75,22 +77,22 @@ public partial class MainWindow : Window
 
     private void earthmodel_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        double z = cam.Position.Z;
+        double z = Camera.Position.Z;
 
         if (z > 100)
         {
             z = 99;
-            cam.Position = new Point3D(0, 0, z);
+            Camera.Position = new Point3D(0, 0, z);
             return;
         }
         if (z < 4)
         {
             z = 5;
-            cam.Position = new Point3D(0, 0, z);
+            Camera.Position = new Point3D(0, 0, z);
             return;
         }
         z = z - (double)(e.Delta / 60);
-        cam.Position = new Point3D(0, 0, z);
+        Camera.Position = new Point3D(0, 0, z);
 
         //if(e.Delta 
     }
@@ -99,17 +101,16 @@ public partial class MainWindow : Window
     {
         NameScope.SetNameScope(this, new NameScope());
         this.RegisterName("YRotate", YRotate);
-        this.RegisterName("earthoffset", earthoffset);
-        this.RegisterName("cam", cam);
+        this.RegisterName("EarthOffset", EarthOffset);
+        this.RegisterName("Camera", Camera);
     }
 
     private void Storyboard_Completed(object sender, EventArgs e)
     {
-        cam.Position = new Point3D(0, 0, 7);
-
+        Camera.Position = new Point3D(0, 0, 7);
     }
 
-    private void earthmodel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void Earthmodel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         //MessageBox.Show("EarthDemo");
     }

@@ -1,4 +1,3 @@
-
 using System;
 using System.Windows;
 using System.Windows.Media.Media3D;
@@ -7,44 +6,29 @@ namespace EarthDemo;
 
 public class SphereMeshGenerator
 {
-    // Four private initialized fields.
-    int slices = 64;
-    int stacks = 32;
-    Point3D center = new Point3D();
-    double radius = 1;
+    private Point3D center = new();
 
     // Four public properties allow access to private fields.
-    public int Slices
-    {
-        set { slices = value; }
-        get { return slices; }
-    }
+    public int Slices { set; get; } = 64;
 
-    public int Stacks
-    {
-        set { stacks = value; }
-        get { return stacks; }
-    }
+    public int Stacks { set; get; } = 32;
 
     public Point3D Center
     {
-        set { center = value; }
-        get { return center; }
+        set => this.center = value;
+        get => this.center;
     }
 
-    public double Radius
-    {
-        set { radius = value; }
-        get { return radius; }
-    }
+    public double Radius { set; get; } = 1;
 
     // Get-only property generates MeshGeometry3D.
+    //can not be replaced with method
     public MeshGeometry3D Geometry
     {
         get
         {
             // Create a MeshGeometry3D.
-            MeshGeometry3D mesh = new MeshGeometry3D();
+            var mesh = new MeshGeometry3D();
 
             // Fill the vertices, normals, and textures collections.
             for (int stack = 0; stack <= Stacks; stack++)
@@ -59,12 +43,10 @@ public class SphereMeshGenerator
                     double x = scale * Math.Sin(theta);
                     double z = scale * Math.Cos(theta);
 
-                    Vector3D normal = new Vector3D(x, y, z);
+                    Vector3D normal = new(x, y, z);
                     mesh.Normals.Add(normal);
                     mesh.Positions.Add(normal + Center);
-                    mesh.TextureCoordinates.Add(
-                                new Point((double)slice / Slices, 
-                                          (double)stack / Stacks));
+                    mesh.TextureCoordinates.Add(new Point((double)slice / Slices,(double)stack / Stacks));
                 }
             }
 
@@ -72,22 +54,22 @@ public class SphereMeshGenerator
             for (int stack = 0; stack < Stacks; stack++)
             {
                 int top = (stack + 0) * (Slices + 1);
-                int bot = (stack + 1) * (Slices + 1);
+                int bottom = (stack + 1) * (Slices + 1);
 
                 for (int slice = 0; slice < Slices; slice++)
                 {
                     if (stack != 0)
                     {
                         mesh.TriangleIndices.Add(top + slice);
-                        mesh.TriangleIndices.Add(bot + slice);
+                        mesh.TriangleIndices.Add(bottom + slice);
                         mesh.TriangleIndices.Add(top + slice + 1);
                     }
 
                     if (stack != Stacks - 1)
                     {
                         mesh.TriangleIndices.Add(top + slice + 1);
-                        mesh.TriangleIndices.Add(bot + slice);
-                        mesh.TriangleIndices.Add(bot + slice + 1);
+                        mesh.TriangleIndices.Add(bottom + slice);
+                        mesh.TriangleIndices.Add(bottom + slice + 1);
                     }
                 }
             }
