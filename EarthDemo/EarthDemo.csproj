@@ -7,12 +7,6 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="MainWindow.xaml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Remove="MainWindow.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Update="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -24,7 +18,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="earthmap.jpg" />
+    <Resource Include="EarthMap.jpg" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

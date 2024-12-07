@@ -8,23 +8,23 @@ namespace EarthDemo;
 /// <summary>
 /// Window1.xaml 的交互逻辑
 /// </summary>
-public partial class Window1 : Window
+public partial class MainWindow : Window
 {
-    public Window1()
+    public MainWindow()
     {
         InitializeComponent();
         CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
     }
-    private bool is_stopping = false;
+    private bool isstop = false;
     void CompositionTarget_Rendering(object sender, EventArgs e)
     {
         YRotate.Angle++;
         if (YRotate.Angle > 360)
             YRotate.Angle = 0;
-        if (is_stopping)
+        if (isstop)
         {
             CompositionTarget.Rendering -= new EventHandler(CompositionTarget_Rendering);
-            is_stopping = true;
+            isstop = true;
         }
     }
     private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -32,7 +32,7 @@ public partial class Window1 : Window
         if (e.Key == Key.Escape)
         {
             this.WindowStyle = WindowStyle.SingleBorderWindow;
-            //menu.Background = new SolidColorBrush(SystemColors.ControlColor);
+            menu.Background = new SolidColorBrush(SystemColors.ControlColor);
             //MenuItem menuitem = (MenuItem)menu.Items[0];
             //int count  = menuitem.Items.Count;
             //for (int i = 0; i < count; i++)
@@ -45,7 +45,7 @@ public partial class Window1 : Window
         else if (e.Key == Key.F1)
         {
             this.WindowStyle = WindowStyle.None;
-            //menu.Background = Brushes.Transparent;
+            menu.Background = Brushes.Transparent;
             //MenuItem menuitem = (MenuItem)menu.Items[0];
             //int count = menuitem.Items.Count;
 
@@ -57,12 +57,12 @@ public partial class Window1 : Window
         }
         else if (e.Key == Key.S)
         {
-            if (is_stopping)
+            if (isstop)
             {
                 CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-                is_stopping = false;
+                isstop = false;
             }
-            else is_stopping = true;
+            else isstop = true;
 
             //if (isstop)
             //    rotatestory.Resume(this);
@@ -73,24 +73,24 @@ public partial class Window1 : Window
         }
     }
 
-    private void Earthmodel_MouseWheel(object sender, MouseWheelEventArgs e)
+    private void earthmodel_MouseWheel(object sender, MouseWheelEventArgs e)
     {
-        double z = Cam.Position.Z;
+        double z = cam.Position.Z;
 
         if (z > 100)
         {
             z = 99;
-            Cam.Position = new Point3D(0, 0, z);
+            cam.Position = new Point3D(0, 0, z);
             return;
         }
         if (z < 4)
         {
             z = 5;
-            Cam.Position = new Point3D(0, 0, z);
+            cam.Position = new Point3D(0, 0, z);
             return;
         }
         z = z - (double)(e.Delta / 60);
-        Cam.Position = new Point3D(0, 0, z);
+        cam.Position = new Point3D(0, 0, z);
 
         //if(e.Delta 
     }
@@ -99,16 +99,17 @@ public partial class Window1 : Window
     {
         NameScope.SetNameScope(this, new NameScope());
         this.RegisterName("YRotate", YRotate);
-        this.RegisterName("EarthOffset", EarthOffset);
-        this.RegisterName("Cam", Cam);
+        this.RegisterName("earthoffset", earthoffset);
+        this.RegisterName("cam", cam);
     }
 
     private void Storyboard_Completed(object sender, EventArgs e)
     {
-        Cam.Position = new Point3D(0, 0, 7);
+        cam.Position = new Point3D(0, 0, 7);
+
     }
 
-    private void Earthmodel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void earthmodel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         //MessageBox.Show("EarthDemo");
     }

@@ -1,9 +1,9 @@
-﻿<Window x:Class="EarthDemo.Window1"
+﻿<Window x:Class="EarthDemo.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local ="clr-namespace:EarthDemo"
         xmlns:tools="clr-namespace:_3DTools;assembly=3DTools"
-    Title="EarthDemo" WindowState="Maximized" WindowStyle="None" Keyboard.KeyDown="Window_KeyDown" Background="Black" Loaded="Window_Loaded"  MouseWheel="Earthmodel_MouseWheel"
+    Title="EarthDemo" WindowState="Maximized" WindowStyle="None" Keyboard.KeyDown="Window_KeyDown" Background="Black" Loaded="Window_Loaded"  MouseWheel="earthmodel_MouseWheel"
 >
     <Window.Resources>
         <local:SphereMeshGenerator x:Key="sphere" Center="0 0 0 " Radius="1.2" />
@@ -14,46 +14,49 @@
                 <Storyboard  x:Name="story" Completed="Storyboard_Completed">
                     <!--<DoubleAnimation Storyboard.TargetName="earthoffset" Storyboard.TargetProperty="OffsetZ" From="0" To="-43" Duration="0:0:5">
                     </DoubleAnimation>-->
-                    <Point3DAnimation Storyboard.TargetName="Cam" Storyboard.TargetProperty="Position" From="0 0 50" To="0 0 7" Duration="0:0:5" FillBehavior="Stop">
+                    <Point3DAnimation Storyboard.TargetName="cam" Storyboard.TargetProperty="Position" From="0 0 50" To="0 0 7" Duration="0:0:5" FillBehavior="Stop">
                     </Point3DAnimation>
                     <!--<DoubleAnimation Storyboard.TargetName="YRotate" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:5" />-->
                     <!--<DoubleAnimation BeginTime="0:0:5" Storyboard.TargetName="YRotate" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:30"  RepeatBehavior="Forever"/>-->
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
+
     </Window.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <!--<Menu x:Name="menu" Grid.Row="0"  Background="Transparent">
+        <Menu x:Name="menu" Grid.Row="0"  Background="Transparent">
             <MenuItem  Header="地图操作">
                 <MenuItem Background="Transparent" Header="放大" />
                 <MenuItem Background="Transparent" Header="缩小" />
                 <MenuItem Background="Transparent" Header="放大" />
                 <MenuItem Background="Transparent" Header="查询" />
             </MenuItem>
-        </Menu>-->
+        </Menu>
         <tools:TrackballDecorator Grid.Row="1" >
             <Viewport3D x:Name="viewport">
                 <Viewport3D.Camera >
-                    <PerspectiveCamera x:Name="Cam" Position="0,0,50" LookDirection="0,0,-6" UpDirection="0,1,0">
+                    <PerspectiveCamera x:Name="cam" Position="0,0,50" LookDirection="0,0,-6" UpDirection="0,1,0">
                         <PerspectiveCamera.Transform>
-                            <TranslateTransform3D x:Name="EarthOffset" OffsetZ="0">
+                            <TranslateTransform3D x:Name="earthoffset" OffsetZ="0">
                             </TranslateTransform3D>
                         </PerspectiveCamera.Transform>
                     </PerspectiveCamera>
 
                 </Viewport3D.Camera>
 
-                <ModelUIElement3D x:Name="earthmodel" MouseLeftButtonDown="Earthmodel_MouseLeftButtonDown">
+                <ModelUIElement3D x:Name="earthmodel" MouseLeftButtonDown="earthmodel_MouseLeftButtonDown">
                     <ModelUIElement3D.Model>
-                        <GeometryModel3D   Geometry ="{Binding Source={StaticResource sphere}, Path=Geometry}">
+                        <GeometryModel3D   Geometry ="{Binding Source={StaticResource sphere},
+                                               Path=Geometry}">
                             <GeometryModel3D.Material>
                                 <DiffuseMaterial>
                                     <DiffuseMaterial.Brush>
-                                        <ImageBrush ImageSource="EarthMap.jpg"/>
+                                        <ImageBrush ImageSource="earthmap.jpg"/>
+
                                     </DiffuseMaterial.Brush>
                                 </DiffuseMaterial>
                             </GeometryModel3D.Material>
@@ -76,7 +79,9 @@
                         </Model3DGroup>
                     </ModelVisual3D.Content>
                 </ModelVisual3D>
+
             </Viewport3D>
         </tools:TrackballDecorator>
     </Grid>
+
 </Window>
